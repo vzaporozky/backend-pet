@@ -39,7 +39,7 @@ class authController {
       const user = new User({
         username,
         password: hashPassword,
-        roles: ["USER", "ADMIN"],
+        roles: ["USER"],
       });
       await user.save();
       return res.json({ message: "Пользователь успешно зарегистрирован" });
