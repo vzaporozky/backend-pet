@@ -1,33 +1,24 @@
-#!/usr/bin/env node
-
-/**
- * Module dependencies.
- */
-
 var app = require("../app");
+var password = require("../password");
+
+const mongoose = require("mongoose");
 var debug = require("debug")("myapp:server");
 var http = require("http");
 
 require("dotenv").config();
-// const dotenv = require("dotenv");
 let process = require("process");
-
-/**
- * Get port from environment and store in Express.
- */
 
 var port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
-
-/**
- * Create HTTP server.
- */
 
 let server = http.createServer(app);
 
 const start = async () => {
   try {
-    // await mongoose.connect(`mongodb+srv://qwerty:qwerty123@cluster0.b6pb9.mongodb.net/auth_roles?retryWrites=true&w=majority`)
+    await mongoose.connect(
+      `mongodb+srv://vzaporozky:${password}@mongo-test.1nbuq.mongodb.net/?retryWrites=true&w=majority&appName=mongo-test`
+    );
+
     server.listen(port, (req, res) => {
       // res.send("Hello World!");
       console.log("Server goes in port " + process.env.PORT);
@@ -41,10 +32,6 @@ start();
 
 server.on("error", onError);
 server.on("listening", onListening);
-
-/**
- * Normalize a port into a number, string, or false.
- */
 
 function normalizePort(val) {
   var port = parseInt(val, 10);
@@ -62,10 +49,6 @@ function normalizePort(val) {
   return false;
 }
 
-/**
- * Event listener for HTTP server "error" event.
- */
-
 function onError(error) {
   if (error.syscall !== "listen") {
     throw error;
@@ -73,7 +56,6 @@ function onError(error) {
 
   var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
 
-  // handle specific listen errors with friendly messages
   switch (error.code) {
     case "EACCES":
       console.error(bind + " requires elevated privileges");
@@ -87,10 +69,6 @@ function onError(error) {
       throw error;
   }
 }
-
-/**
- * Event listener for HTTP server "listening" event.
- */
 
 function onListening() {
   var addr = server.address();
