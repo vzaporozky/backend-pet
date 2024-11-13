@@ -3,7 +3,7 @@ var router = express.Router();
 
 const { check } = require("express-validator");
 
-const controller = require("../controller/authController");
+const authcontroller = require("../controller/authController");
 const authMiddleware = require("../middleware/authMiddleware");
 const roleMiddleware = require("../middleware/roleMiddleware");
 
@@ -16,9 +16,9 @@ router.post(
       "Пароль должен быть больше 4 и меньше 10 символов"
     ).isLength({ min: 4, max: 10 }),
   ],
-  controller.registration
+  authcontroller.registration
 );
-router.post("/login", controller.login);
-router.get("/users", roleMiddleware(["ADMIN"]), controller.getUsers);
+router.post("/login", authcontroller.login);
+router.get("/users", roleMiddleware(["ADMIN"]), authcontroller.getUsers);
 
 module.exports = router;
